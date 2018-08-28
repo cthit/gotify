@@ -2,7 +2,7 @@ package main
 
 import (
 	"../google_mail"
-	"../web"
+	"github.com/cthit/gotify/web"
 	"log"
 	"net/http"
 	"fmt"

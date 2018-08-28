@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"encoding/json"
-	"../../gotify"
+	"github.com/cthit/gotify"
 )
 
 func (c *Context) SendMail(rw web.ResponseWriter, req *web.Request) {

@@ -9,7 +9,7 @@ import (
 	"encoding/base64"
 	"io/ioutil"
 
-	"../../gotify"
+	"github.com/cthit/gotify"
 )
 type googleService struct {
 	mailService  *gmail.Service

@@ -2,7 +2,7 @@ package web
 
 import (
 	"github.com/gocraft/web"
-	"../../gotify"
+	"github.com/cthit/gotify"
 	"net/http"
 )
 

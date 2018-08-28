@@ -1,7 +1,7 @@
 package main
 
 import (
-	"../google_mail"
+	"github.com/cthit/gotify/google_mail"
 	"github.com/cthit/gotify/web"
 	"log"
 	"net/http"

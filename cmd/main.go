@@ -14,9 +14,10 @@ func init() {
 	err := loadConfig()
 	if err != nil {
 		fmt.Println("Failed to load config.")
-		panic(err)
+	} else {
+		fmt.Println("Loaded config.")
+
 	}
-	fmt.Println("Loaded config.")
 }
 
 func main() {

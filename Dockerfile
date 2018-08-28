@@ -25,6 +25,10 @@ RUN mkdir /app && mv $GOPATH/bin/cmd /app/gotify
 FROM alpine
 MAINTAINER digIT <digit@chalmers.it>
 
+#Update
+RUN apk update
+RUN apk upgrade
+
 # Set user
 RUN addgroup -S app
 RUN adduser -S -G app -s /bin/bash app

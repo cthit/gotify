@@ -25,9 +25,8 @@ RUN mkdir /app && mv $GOPATH/bin/cmd /app/gotify
 FROM alpine
 MAINTAINER digIT <digit@chalmers.it>
 
-#Update
-RUN apk update
-RUN apk upgrade
+# Add standard certificates
+RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
 
 # Set user
 RUN addgroup -S app

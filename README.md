@@ -27,7 +27,7 @@ Json Request:
 
 ## Setup
 Steps to run the application.
-this inklude cofiguration and key files at the moment
+this include configuration and key files at the moment
 
 ### Config
 The application can be configured through a config file or environment variables. Environment variables take precedence.
@@ -70,9 +70,9 @@ You must also allow mail api calls:
 
 * go to security > advanced settings > Manage API client access
 * use the `client_id` from the credentials file previously retrieved
-* úse api scope `https://www.googleapis.com/auth/gmail.send`
+* use api scope `https://www.googleapis.com/auth/gmail.send`
 
 ## Development
 1. Follow the steps in [Setup](#setup) and enable debug mode.
 2. Grab all dependencies by standing in the project root and run `go get -d ./...`
-3. Run application, not hot-reload available
+3. Run application, no hot-reload available

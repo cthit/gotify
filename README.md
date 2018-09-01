@@ -74,6 +74,8 @@ You must also allow mail api calls:
 
 ## Development
 You can either set this project up manually or with a simple docker compose setup. The manual setup is recommended if you'll be doing extensive development.
+
+Please referer to the software design document before starting development: `DESIGN.md`
 ### Manual
 Make sure you have golang installed and you `$GOPATH` setup.
 1. Follow the steps in [Setup](#setup) and enable debug mode.

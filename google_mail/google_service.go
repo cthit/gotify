@@ -14,9 +14,10 @@ import (
 type googleService struct {
 	mailService  *gmail.Service
 	adminMail        string
+	debug 		bool
 }
 
-func NewGoogleMailServiceCreator(keyPath string, adminMail string) (func() gotify.MailService, error) {
+func NewGoogleMailServiceCreator(keyPath string, adminMail string, debug bool) (func() gotify.MailService, error) {
 
 	jsonKey, err := ioutil.ReadFile(keyPath)
 	if err != nil {
@@ -43,6 +44,7 @@ func NewGoogleMailServiceCreator(keyPath string, adminMail string) (func() gotif
 	gs := &googleService{
 		mailService:  mailService,
 		adminMail:        adminMail,
+		debug:debug,
 	}
 	if err != nil {
 		return nil, err

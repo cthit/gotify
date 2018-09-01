@@ -3,7 +3,6 @@ package web
 import (
 	"github.com/gocraft/web"
 	"io/ioutil"
-	"fmt"
 	"net/http"
 	"encoding/json"
 	"github.com/cthit/gotify"
@@ -16,7 +15,7 @@ func (c *Context) SendMail(rw web.ResponseWriter, req *web.Request) {
 	body, err := ioutil.ReadAll(req.Body)
 	req.Body.Close()
 	if err != nil {
-		fmt.Println(err)
+		c.printError(err)
 		rw.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -24,7 +23,7 @@ func (c *Context) SendMail(rw web.ResponseWriter, req *web.Request) {
 	// Parse json email
 	err = json.Unmarshal(body, &mail)
 	if err != nil {
-		fmt.Println(err)
+		c.printError(err)
 		rw.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -32,7 +31,7 @@ func (c *Context) SendMail(rw web.ResponseWriter, req *web.Request) {
 	// Send email
 	mail, err = c.MailService.SendMail(mail)
 	if err != nil {
-		fmt.Println(err)
+		c.printError(err)
 		rw.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -40,7 +39,7 @@ func (c *Context) SendMail(rw web.ResponseWriter, req *web.Request) {
 	// Build json email
 	data, err := json.Marshal(mail)
 	if err != nil {
-		fmt.Println(err)
+		c.printError(err)
 		rw.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -49,3 +48,4 @@ func (c *Context) SendMail(rw web.ResponseWriter, req *web.Request) {
 	rw.WriteHeader(http.StatusOK)
 	rw.Write(data)
 }
+

@@ -23,8 +23,6 @@ func init() {
 }
 
 func main() {
-
-	web.DEBUG = viper.GetBool("debug-mode")
 	fmt.Printf("Debug mode is set to: %t \n", viper.GetBool("debug-mode"))
 	fmt.Printf("Mock mode is set to: %t \n", viper.GetBool("mock-mode"))
 
@@ -34,7 +32,11 @@ func main() {
 	var err error
 
 	if !viper.GetBool("mock-mode") {
-		mailServiceCreator, err = google_mail.NewGoogleMailServiceCreator(viper.GetString("google-mail.keyfile"), viper.GetString("google-mail.admin-mail"))
+		mailServiceCreator, err = google_mail.NewGoogleMailServiceCreator(
+			viper.GetString("google-mail.keyfile"),
+			viper.GetString("google-mail.admin-mail"),
+			viper.GetBool("debug-mode"),
+		)
 		if err != nil {
 			panic(err)
 		}
@@ -47,5 +49,13 @@ func main() {
 	fmt.Printf("Done! \n")
 
 	fmt.Printf("Serving application on port %s \n", viper.GetString("port"))
-	log.Fatal(http.ListenAndServe(":" + viper.GetString("port"), web.Router(preSharedKey, mailServiceCreator)))
+	log.Fatal(
+		http.ListenAndServe(":" + viper.GetString("port"),
+			web.Router(
+				preSharedKey,
+				mailServiceCreator,
+				viper.GetBool("debug-mode"),
+			),
+		),
+	)
 }

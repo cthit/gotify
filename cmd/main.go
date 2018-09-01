@@ -1,16 +1,15 @@
 package main
 
 import (
+	"fmt"
+	"github.com/cthit/gotify"
 	"github.com/cthit/gotify/google_mail"
+	"github.com/cthit/gotify/mock"
 	"github.com/cthit/gotify/web"
+	"github.com/spf13/viper"
 	"log"
 	"net/http"
-	"fmt"
-	"github.com/spf13/viper"
-	"github.com/cthit/gotify/mock"
-	"github.com/cthit/gotify"
 )
-
 
 func init() {
 	err := loadConfig()
@@ -28,7 +27,7 @@ func main() {
 
 	fmt.Printf("Setting up services...")
 
-	var mailServiceCreator func()  gotify.MailService
+	var mailServiceCreator func() gotify.MailService
 	var err error
 
 	if !viper.GetBool("mock-mode") {
@@ -40,7 +39,7 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-	}else {
+	} else {
 		mailServiceCreator, _ = mock.NewMockServiceCreator()
 	}
 
@@ -50,7 +49,7 @@ func main() {
 
 	fmt.Printf("Serving application on port %s \n", viper.GetString("port"))
 	log.Fatal(
-		http.ListenAndServe(":" + viper.GetString("port"),
+		http.ListenAndServe(":"+viper.GetString("port"),
 			web.Router(
 				preSharedKey,
 				mailServiceCreator,

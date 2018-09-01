@@ -1,8 +1,8 @@
 package mock
 
 import (
-	"github.com/cthit/gotify"
 	"fmt"
+	"github.com/cthit/gotify"
 )
 
 type mockService struct {

@@ -11,10 +11,11 @@ import (
 
 	"github.com/cthit/gotify"
 )
+
 type googleService struct {
-	mailService  *gmail.Service
-	adminMail        string
-	debug 		bool
+	mailService *gmail.Service
+	adminMail   string
+	debug       bool
 }
 
 func NewGoogleMailServiceCreator(keyPath string, adminMail string, debug bool) (func() gotify.MailService, error) {
@@ -42,9 +43,9 @@ func NewGoogleMailServiceCreator(keyPath string, adminMail string, debug bool) (
 	}
 
 	gs := &googleService{
-		mailService:  mailService,
-		adminMail:        adminMail,
-		debug:debug,
+		mailService: mailService,
+		adminMail:   adminMail,
+		debug:       debug,
 	}
 	if err != nil {
 		return nil, err

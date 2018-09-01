@@ -1,18 +1,18 @@
 package web
 
 import (
-	"github.com/gocraft/web"
 	"github.com/cthit/gotify"
+	"github.com/gocraft/web"
 	"net/http"
 )
 
 type Context struct {
 	MailService gotify.MailService
-	AuthKey string
-	Debug bool
+	AuthKey     string
+	Debug       bool
 }
 
-func Router(authKey string, mailServiceCreator func()  gotify.MailService, debug bool) http.Handler {
+func Router(authKey string, mailServiceCreator func() gotify.MailService, debug bool) http.Handler {
 
 	router := web.NewWithPrefix(
 		Context{},

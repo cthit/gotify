@@ -1,11 +1,11 @@
 package web
 
 import (
+	"encoding/json"
+	"github.com/cthit/gotify"
 	"github.com/gocraft/web"
 	"io/ioutil"
 	"net/http"
-	"encoding/json"
-	"github.com/cthit/gotify"
 )
 
 func (c *Context) SendMail(rw web.ResponseWriter, req *web.Request) {
@@ -48,4 +48,3 @@ func (c *Context) SendMail(rw web.ResponseWriter, req *web.Request) {
 	rw.WriteHeader(http.StatusOK)
 	rw.Write(data)
 }
-

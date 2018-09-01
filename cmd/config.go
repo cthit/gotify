@@ -8,6 +8,7 @@ func loadConfig() error {
 	viper.SetDefault("port", "8080")
 	viper.SetDefault("debug-mode", false)
 	viper.SetDefault("google-mail.keyfile", "gapps.json")
+	viper.SetDefault("mock-mode", false)
 
 	viper.SetEnvPrefix("gotify")
 	viper.AutomaticEnv()

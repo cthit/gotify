@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"fmt"
 	"github.com/spf13/viper"
+	"github.com/cthit/gotify/mock"
+	"github.com/cthit/gotify"
 )
 
 
@@ -24,16 +26,23 @@ func main() {
 
 	web.DEBUG = viper.GetBool("debug-mode")
 	fmt.Printf("Debug mode is set to: %t \n", viper.GetBool("debug-mode"))
+	fmt.Printf("Mock mode is set to: %t \n", viper.GetBool("mock-mode"))
 
 	fmt.Printf("Setting up services...")
 
-	mailServiceCreator, err := google_mail.NewGoogleMailServiceCreator(viper.GetString("google-mail.keyfile"), viper.GetString("google-mail.admin-mail"))
-	if err != nil {
-		panic(err)
+	var mailServiceCreator func()  gotify.MailService
+	var err error
+
+	if !viper.GetBool("mock-mode") {
+		mailServiceCreator, err = google_mail.NewGoogleMailServiceCreator(viper.GetString("google-mail.keyfile"), viper.GetString("google-mail.admin-mail"))
+		if err != nil {
+			panic(err)
+		}
+	}else {
+		mailServiceCreator, _ = mock.NewMockServiceCreator()
 	}
 
 	preSharedKey := viper.GetString("pre-shared-key")
-
 
 	fmt.Printf("Done! \n")
 

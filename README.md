@@ -39,6 +39,7 @@ config.toml can reside in your working directory, `/etc/gotify/` or `$HOME/.goti
 port = "8080"
 pre-shared-key = "......"
 debug-mode = false
+mock-mode = false
 
 [google-mail]
     keyfile = "gapps.json"
@@ -94,3 +95,22 @@ Use gin for hot reloading.
 3. Go to http://localhost:8080
 
 You can install additional dependencies without restarting the container by running `docker exec gotify_web_1 go get ...`, gotify_web_1 is the name of the container and ... is the dependency.
+
+### As mock
+1. Set the `pre-shared-key` config/environment variable.
+2. Set the `mock-mode` config/environment variable to true
+3. Enjoy
+
+Example docker-compose entry for mock service:
+```
+services:
+    ...
+    gotify:
+        image: cthit/gotify:latest
+        environment:
+          GOTIFY_PRE-SHARED-KEY: "123abc"
+          GOTIFY_MOCK-MODE: "true"
+
+```
+
+Other services would then be able to reach this service on `http://gotify:8080/...` with `123abc` as the preshared key

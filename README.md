@@ -73,6 +73,22 @@ You must also allow mail api calls:
 * use api scope `https://www.googleapis.com/auth/gmail.send`
 
 ## Development
+You can either set this project up manually or with a simple docker compose setup. The manual setup is recommended if you'll be doing extensive development.
+### Manual
+Make sure you have golang installed and you `$GOPATH` setup.
 1. Follow the steps in [Setup](#setup) and enable debug mode.
 2. Grab all dependencies by standing in the project root and run `go get -d ./...`
-3. Run application, no hot-reload available
+3. You find the main file in `cmd/main.go`
+4. Go to http://localhost:8080
+
+Use gin for hot reloading.
+1. Grab it with `go get github.com/codegangsta/gin`
+2. Run gotify with `gin -d cmd -a 8080 run main.go`
+3. Go to http://localhost:3000
+
+### Docker Compose
+1. Get a [Google key file](#google-config-file).
+2. Run `docker-compose up --build`
+3. Go to http://localhost:8080
+
+You can install additional dependencies without restarting the container by running `docker exec gotify_web_1 go get ...`, gotify_web_1 is the name of the container and ... is the dependency.

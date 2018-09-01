@@ -1,4 +1,4 @@
-# Dockerfile for goldapps production
+# Dockerfile for gotify production
 FROM golang:alpine AS buildStage
 MAINTAINER digIT <digit@chalmers.it>
 

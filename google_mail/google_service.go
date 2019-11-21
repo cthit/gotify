@@ -66,7 +66,7 @@ func (g *googleService) SendMail(mail gotify.Mail) (gotify.Mail, error) {
 		mail.Body + "\r\n"
 
 	msg := &gmail.Message{
-		Raw: base64.StdEncoding.EncodeToString([]byte(msgRaw)),
+		Raw: base64.RawURLEncoding.EncodeToString([]byte(msgRaw)),
 	}
 	_, err := g.mailService.Users.Messages.Send(mail.From, msg).Do()
 

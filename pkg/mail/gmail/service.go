@@ -1,15 +1,15 @@
-package google_mail
+package gmail
 
 import (
-	"google.golang.org/api/gmail/v1" // Imports as gmail
+	"github.com/cthit/gotify/pkg/mail"
+
+	"google.golang.org/api/gmail/v1"
 
 	"golang.org/x/net/context"
 	"golang.org/x/oauth2/google"
 
 	"encoding/base64"
 	"io/ioutil"
-
-	"github.com/cthit/gotify"
 )
 
 type googleService struct {
@@ -18,7 +18,7 @@ type googleService struct {
 	debug       bool
 }
 
-func NewGoogleMailServiceCreator(keyPath string, adminMail string, debug bool) (func() gotify.MailService, error) {
+func NewService(keyPath string, adminMail string, debug bool) (mail.MailService, error) {
 
 	jsonKey, err := ioutil.ReadFile(keyPath)
 	if err != nil {
@@ -34,10 +34,7 @@ func NewGoogleMailServiceCreator(keyPath string, adminMail string, debug bool) (
 	// Why do I need this??
 	config.Subject = adminMail
 
-	// Create a http client
-	client := config.Client(context.Background())
-
-	mailService, err := gmail.New(client)
+	mailService, err := gmail.NewService(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -47,16 +44,11 @@ func NewGoogleMailServiceCreator(keyPath string, adminMail string, debug bool) (
 		adminMail:   adminMail,
 		debug:       debug,
 	}
-	if err != nil {
-		return nil, err
-	}
 
-	return func() gotify.MailService {
-		return gs
-	}, nil
+	return gs, err
 }
 
-func (g *googleService) SendMail(mail gotify.Mail) (gotify.Mail, error) {
+func (g *googleService) SendMail(mail mail.Mail) (mail.Mail, error) {
 
 	mail.From = g.adminMail
 

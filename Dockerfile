@@ -10,13 +10,13 @@ RUN apk add --update git
 # Copy sources
 RUN mkdir /app
 COPY . /app
-WORKDIR /app/cmd
+WORKDIR /app/cmd/gotify
 
 # Grab dependencies
 RUN go mod download
 
 # build binary
-RUN go build -o gotify
+RUN go build
 
 ##########################
 #    PRODUCTION STAGE    #
@@ -33,7 +33,7 @@ RUN adduser -S -G app -s /bin/bash app
 USER app:app
 
 # Copy binary
-COPY --from=buildStage /app/cmd/gotify /app/gotify
+COPY --from=buildStage /app/cmd/gotify/gotify /app/gotify
 
 # Set good defaults
 WORKDIR /app

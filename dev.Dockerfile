@@ -16,4 +16,4 @@ RUN apk add ca-certificates && rm -rf /var/cache/apk/*
 RUN mkdir /app
 WORKDIR /app
 
-CMD go mod download && gin -d cmd -a 8080 run main.go
+CMD go mod download && gin -d cmd/gotify -a 8080 run main.go

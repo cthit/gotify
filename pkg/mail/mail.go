@@ -1,4 +1,4 @@
-package gotify
+package mail
 
 type Mail struct {
 	To      string `json:"to"`

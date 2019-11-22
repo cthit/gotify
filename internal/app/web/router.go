@@ -1,18 +1,18 @@
 package web
 
 import (
-	"github.com/cthit/gotify"
+	"github.com/cthit/gotify/pkg/mail"
 	"github.com/gocraft/web"
 	"net/http"
 )
 
 type Context struct {
-	MailService gotify.MailService
+	MailService mail.MailService
 	AuthKey     string
 	Debug       bool
 }
 
-func Router(authKey string, mailServiceCreator func() gotify.MailService, debug bool) http.Handler {
+func Router(authKey string, mailService mail.MailService, debug bool) http.Handler {
 
 	router := web.NewWithPrefix(
 		Context{},
@@ -24,7 +24,7 @@ func Router(authKey string, mailServiceCreator func() gotify.MailService, debug 
 	}
 
 	router.Middleware(setDebugMode(debug))
-	router.Middleware(setMailServiceProvider(mailServiceCreator))
+	router.Middleware(setMailServiceProvider(mailService))
 	router.Middleware(setAuthKey(authKey))
 	router.Middleware((*Context).Auth)
 
@@ -32,11 +32,10 @@ func Router(authKey string, mailServiceCreator func() gotify.MailService, debug 
 	return router
 }
 
-func setMailServiceProvider(mailServiceProvider func() gotify.MailService) func(*Context, web.ResponseWriter, *web.Request, web.NextMiddlewareFunc) {
+func setMailServiceProvider(mailService mail.MailService) func(*Context, web.ResponseWriter, *web.Request, web.NextMiddlewareFunc) {
 	return func(c *Context, rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
-		c.MailService = mailServiceProvider()
+		c.MailService = mailService
 		next(rw, req)
-		c.MailService.Destroy()
 	}
 }
 

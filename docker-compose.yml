@@ -7,7 +7,7 @@ services:
     ports:
     - "8080:3000"
     volumes:
-    - .:/go/src/github.com/cthit/gotify
+    - .:/app
     environment:
       GOTIFY_PRE-SHARED-KEY: "123abc"
       GOTIFY_DEBUG-MODE: "true"

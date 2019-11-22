@@ -8,16 +8,15 @@ RUN apk upgrade
 RUN apk add --update git
 
 # Copy sources
-RUN mkdir -p $GOPATH/src/github.com/cthit/gotify
-COPY . $GOPATH/src/github.com/cthit/gotify
-WORKDIR $GOPATH/src/github.com/cthit/gotify/cmd
+RUN mkdir /app
+COPY . /app
+WORKDIR /app/cmd
 
 # Grab dependencies
-RUN go get -d -v ./...
+RUN go mod download
 
 # build binary
-RUN go install -v
-RUN mkdir /app && mv $GOPATH/bin/cmd /app/gotify
+RUN go build -o gotify
 
 ##########################
 #    PRODUCTION STAGE    #
@@ -34,7 +33,7 @@ RUN adduser -S -G app -s /bin/bash app
 USER app:app
 
 # Copy binary
-COPY --from=buildStage /app/gotify /app/gotify
+COPY --from=buildStage /app/cmd/gotify /app/gotify
 
 # Set good defaults
 WORKDIR /app

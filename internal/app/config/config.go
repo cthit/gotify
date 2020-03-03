@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"github.com/spf13/viper"
 )
 
@@ -20,7 +21,14 @@ func LoadConfig() (*Config, error) {
 	viper.AddConfigPath(".")
 
 	err := viper.ReadInConfig()
-	return &Config{}, err
+	if err != nil {
+		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+			fmt.Println("Failed to read config from file")
+		} else {
+			return &Config{}, err
+		}
+	}
+	return &Config{}, nil
 }
 
 func (*Config) Port() string {
@@ -41,8 +49,4 @@ func (*Config) Mock() bool {
 
 func (*Config) GmailKeyfile() string {
 	return viper.GetString("google-mail.keyfile")
-}
-
-func (*Config) GmailAdminMail() string {
-	return viper.GetString("google-mail.admin-mail")
 }

@@ -32,7 +32,6 @@ func Start() error {
 	if !c.Mock() {
 		mailService, err = gmail.NewService(
 			c.GmailKeyfile(),
-			c.GmailAdminMail(),
 			c.Debug(),
 		)
 		if err != nil {

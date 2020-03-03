@@ -12,4 +12,3 @@ services:
       GOTIFY_PRE-SHARED-KEY: "123abc"
       GOTIFY_DEBUG-MODE: "true"
       GOTIFY_GOOGLE-MAIL.KEYFILE: "gapps.json"
-      GOTIFY_GOOGLE-MAIL.ADMIN-MAIL: "admin@chalmers.it"

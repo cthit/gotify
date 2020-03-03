@@ -43,7 +43,6 @@ mock-mode = false
 
 [google-mail]
     keyfile = "gapps.json"
-    admin-mail = "admin@example.ex"
 ```
 See [Environment Variables](#environment-variables) for config explanation
 
@@ -52,7 +51,6 @@ See [Environment Variables](#environment-variables) for config explanation
 * `GOTIFY_PRE-SHARED-KEY`*: Random string used by other apps to authenticate
 * `GOTIFY_DEBUG-MODE`: Bool indicating debug mode defaults to `false`
 * `GOTIFY_GOOGLE-MAIL.KEYFILE`: the file described in [Google config file](#google-config-file) defaults to `gapps.json`
-* `GOTIFY_GOOGLE-MAIL.ADMIN-MAIL`*: The google administrator email.
 
 ### Google config file
 This file (gapps.json by default config) should be placed in the working directory
@@ -63,6 +61,7 @@ This file (gapps.json by default config) should be placed in the working directo
 Go to [Google developer console](https://console.developers.google.com) to retrieve this file
 
 * go to credentials
+* create a project for this app if you don't already have one
 * create new service account för this app
 * use the downloaded file
 

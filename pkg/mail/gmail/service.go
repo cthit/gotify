@@ -1,25 +1,40 @@
 package gmail
 
 import (
+	"fmt"
+	"io/ioutil"
+	"strings"
+
 	"github.com/cthit/gotify/pkg/mail"
-
-	"google.golang.org/api/gmail/v1"
-
-	"golang.org/x/net/context"
 	"golang.org/x/oauth2/google"
+	"golang.org/x/oauth2/jwt"
+	"google.golang.org/api/gmail/v1"
+	"google.golang.org/api/option"
 
 	"encoding/base64"
-	"io/ioutil"
+
+	"golang.org/x/net/context"
 )
 
+const googleInvalidEmailErrorMessage = `Response: {
+  "error": "invalid_grant",
+  "error_description": "Invalid email or User ID"
+}`
+
 type googleService struct {
-	mailService *gmail.Service
-	adminMail   string
-	debug       bool
+	config    jwt.Config
+	adminMail string
+	debug     bool
 }
 
-func NewService(keyPath string, adminMail string, debug bool) (mail.MailService, error) {
+func (g *googleService) mailService(from string) (*gmail.Service, error) {
+	// make sure to not edit the original config
+	c := g.config
+	c.Subject = from
+	return gmail.NewService(context.TODO(), option.WithScopes(gmail.GmailSendScope), option.WithTokenSource(c.TokenSource(context.TODO())))
+}
 
+func NewService(keyPath string, debug bool) (mail.MailService, error) {
 	jsonKey, err := ioutil.ReadFile(keyPath)
 	if err != nil {
 		return nil, err
@@ -31,38 +46,38 @@ func NewService(keyPath string, adminMail string, debug bool) (mail.MailService,
 		return nil, err
 	}
 
-	// Why do I need this??
-	config.Subject = adminMail
-
-	mailService, err := gmail.NewService(context.Background())
-	if err != nil {
-		return nil, err
-	}
-
 	gs := &googleService{
-		mailService: mailService,
-		adminMail:   adminMail,
-		debug:       debug,
+		config: *config,
+		debug:  debug,
 	}
 
 	return gs, err
 }
 
-func (g *googleService) SendMail(mail mail.Mail) (mail.Mail, error) {
+func (g *googleService) SendMail(m mail.Mail) (mail.Mail, error) {
 
-	mail.From = g.adminMail
+	mailService, err := g.mailService(m.From)
+	if err != nil {
+		return m, err
+	}
 
-	msgRaw := "From: " + mail.From + "\r\n" +
-		"To: " + mail.To + "\r\n" +
-		"Subject: " + mail.Subject + "\r\n\r\n" +
-		mail.Body + "\r\n"
+	msgRaw := "From: " + m.From + "\r\n" +
+		"To: " + m.To + "\r\n" +
+		"Subject: " + mail.EncodeHeader(m.Subject) + "\r\n\r\n" +
+		m.Body + "\r\n"
 
 	msg := &gmail.Message{
 		Raw: base64.RawURLEncoding.EncodeToString([]byte(msgRaw)),
 	}
-	_, err := g.mailService.Users.Messages.Send(mail.From, msg).Do()
+	_, err = mailService.Users.Messages.Send(m.From, msg).Context(context.Background()).Do()
+	if err != nil {
+		if strings.Contains(err.Error(), googleInvalidEmailErrorMessage) {
+			return m, fmt.Errorf("Invalid from email, email must exists")
+		}
+		return m, err
+	}
 
-	return mail, err
+	return m, nil
 }
 
 func (g *googleService) Destroy() error {

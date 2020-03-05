@@ -8,10 +8,7 @@ import (
 	"github.com/cthit/gotify/pkg/mail/mock"
 
 	"fmt"
-	"log"
-	"net/http"
 )
-
 
 func Start() error {
 	c, err := config.LoadConfig()
@@ -41,19 +38,20 @@ func Start() error {
 		mailService, _ = mock.NewService()
 	}
 
-	preSharedKey := c.PreSharedKey()
-
 	fmt.Printf("Done! \n")
 
 	fmt.Printf("Serving application on port %s \n", c.Port())
-	log.Fatal(
-		http.ListenAndServe(":"+c.Port(),
-			web.Router(
-				preSharedKey,
-				mailService,
-				c.Debug(),
-			),
-		),
+	server, err := web.NewServer(
+		c.Port(),
+		c.PreSharedKey(),
+		c.Debug(),
+		mailService,
 	)
-	return nil
+	if err != nil {
+		fmt.Println("Failed to create webserver.")
+		return err
+	}
+
+	err = server.Start()
+	return err
 }

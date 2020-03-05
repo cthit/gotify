@@ -1,50 +1,28 @@
 package web
 
 import (
-	"encoding/json"
+	"fmt"
 	"github.com/cthit/gotify/pkg/mail"
-	"github.com/gocraft/web"
-	"io/ioutil"
+	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
-func (c *Context) SendMail(rw web.ResponseWriter, req *web.Request) {
+func (s *Server) MailHandler(c *gin.Context) {
 	var m mail.Mail
 
-	// Read request body
-	body, err := ioutil.ReadAll(req.Body)
-	req.Body.Close()
+	err := c.Bind(&m)
 	if err != nil {
-		c.printError(err)
-		rw.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
-	// Parse json email
-	err = json.Unmarshal(body, &m)
-	if err != nil {
-		c.printError(err)
-		rw.WriteHeader(http.StatusBadRequest)
+		fmt.Println(err)
 		return
 	}
 
 	// Send email
-	m, err = c.MailService.SendMail(m)
+	m, err = s.mailService.SendMail(m)
 	if err != nil {
-		c.printError(err)
-		rw.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	// Build json email
-	data, err := json.Marshal(m)
-	if err != nil {
-		c.printError(err)
-		rw.WriteHeader(http.StatusInternalServerError)
+		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
 
 	// Return the sent email
-	rw.WriteHeader(http.StatusOK)
-	rw.Write(data)
+	c.JSON(http.StatusAccepted, m)
 }

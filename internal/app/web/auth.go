@@ -2,14 +2,12 @@ package web
 
 import (
 	"fmt"
-	"github.com/gocraft/web"
+	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
-func (c *Context) Auth(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
-	if req.Header.Get("Authorization") == fmt.Sprintf("pre-shared: %s", c.AuthKey) {
-		next(rw, req)
-	} else {
-		rw.WriteHeader(http.StatusUnauthorized)
+func (s *Server) MustAuthorize(c *gin.Context) {
+	if c.GetHeader("Authorization") != fmt.Sprintf("pre-shared: %s", s.preSharedKey) {
+		c.AbortWithStatus(http.StatusUnauthorized)
 	}
 }

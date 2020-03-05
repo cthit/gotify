@@ -5,7 +5,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-type Config struct {}
+type Config struct{}
 
 func LoadConfig() (*Config, error) {
 	viper.SetDefault("port", "8080")

@@ -9,7 +9,7 @@ type mockService struct {
 }
 
 func NewService() (mail.MailService, error) {
-		return &mockService{}, nil
+	return &mockService{}, nil
 }
 
 func (g *mockService) SendMail(mail mail.Mail) (mail.Mail, error) {

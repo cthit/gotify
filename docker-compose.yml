@@ -11,4 +11,5 @@ services:
     environment:
       GOTIFY_PRE-SHARED-KEY: "123abc"
       GOTIFY_DEBUG-MODE: "true"
+      GOTIFY_MOCK-MODE: "true"
       GOTIFY_GOOGLE-MAIL.KEYFILE: "gapps.json"

@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package gotify;
+
+service Mailer {
+    rpc SendMail(SendMailRequest) returns (SendMailResponse) {}
+}
+
+message SendMailRequest {
+    Mail mail = 1;
+}
+
+message SendMailResponse {
+    Mail mail = 1;
+    bool success = 2;
+    string error = 3;
+}
+
+message Mail {
+    string to = 1;
+    string from = 2;
+    string reply_to = 3;
+    string subject = 4;
+    string body = 5;
+}

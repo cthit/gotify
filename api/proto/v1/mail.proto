@@ -2,8 +2,14 @@ syntax = "proto3";
 
 package gotify;
 
+import "google/api/annotations.proto";
+
 service Mailer {
-    rpc SendMail(SendMailRequest) returns (SendMailResponse) {}
+    rpc SendMail(SendMailRequest) returns (SendMailResponse) {
+        option(google.api.http) = {
+            post: "/mail"
+        };
+    }
 }
 
 message SendMailRequest {

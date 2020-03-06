@@ -2,3 +2,5 @@ config.toml
 .idea/
 *.json
 gin-bin
+api/swagger
+pkg/api

@@ -8,7 +8,8 @@ import (
 type Config struct{}
 
 func LoadConfig() (*Config, error) {
-	viper.SetDefault("port", "8080")
+	viper.SetDefault("web-port", "8080")
+	viper.SetDefault("rpc-port", "8090")
 	viper.SetDefault("debug-mode", false)
 	viper.SetDefault("google-mail.keyfile", "gapps.json")
 	viper.SetDefault("mock-mode", false)
@@ -31,16 +32,16 @@ func LoadConfig() (*Config, error) {
 	return &Config{}, nil
 }
 
-func (*Config) Port() string {
-	return viper.GetString("port")
+func (*Config) WebPort() string {
+	return viper.GetString("web-port")
 }
 
 func (*Config) Debug() bool {
 	return viper.GetBool("debug-mode")
 }
 
-func (*Config) PreSharedKey() string {
-	return viper.GetString("pre-shared-key")
+func (*Config) RPCPort() string {
+	return viper.GetString("rpc-port")
 }
 
 func (*Config) Mock() bool {

@@ -2,7 +2,7 @@ package app
 
 import (
 	"github.com/cthit/gotify/internal/app/config"
-	"github.com/cthit/gotify/internal/app/web"
+	"github.com/cthit/gotify/internal/app/grpc"
 	"github.com/cthit/gotify/pkg/mail"
 	"github.com/cthit/gotify/pkg/mail/gmail"
 	"github.com/cthit/gotify/pkg/mail/mock"
@@ -40,10 +40,11 @@ func Start() error {
 
 	fmt.Printf("Done! \n")
 
-	fmt.Printf("Serving application on port %s \n", c.Port())
-	server, err := web.NewServer(
-		c.Port(),
-		c.PreSharedKey(),
+	fmt.Printf("Serving application on port %s \n", c.WebPort())
+	fmt.Printf("Serving rpc on port %s \n", c.RPCPort())
+	server, err := grpc.NewServer(
+		c.RPCPort(),
+		c.WebPort(),
 		c.Debug(),
 		mailService,
 	)
@@ -52,6 +53,6 @@ func Start() error {
 		return err
 	}
 
-	err = server.Start()
-	return err
+	server.Start()
+	return nil
 }

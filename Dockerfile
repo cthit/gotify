@@ -1,3 +1,31 @@
+# Dockerfile for protobuf generation
+FROM znly/protoc:0.4.0 AS protocGenerator
+MAINTAINER digIT <digit@chalmers.it>
+
+RUN apk update
+RUN apk upgrade
+RUN apk add --update git
+
+# Add standard certificates
+RUN apk add ca-certificates && rm -rf /var/cache/apk/*
+
+# Add proto imports
+RUN mkdir -p /src/github.com/grpc-ecosystem
+WORKDIR /src/github.com/grpc-ecosystem
+RUN git clone https://github.com/grpc-ecosystem/grpc-gateway.git
+
+# create dir
+RUN mkdir /app
+WORKDIR /app
+
+ENTRYPOINT ["/bin/sh"]
+
+FROM protocGenerator AS protocGen
+
+COPY . /app
+
+RUN ./scripts/protoc-gen.sh
+
 # Dockerfile for gotify production
 FROM golang:alpine AS buildStage
 MAINTAINER digIT <digit@chalmers.it>
@@ -9,7 +37,7 @@ RUN apk add --update git
 
 # Copy sources
 RUN mkdir /app
-COPY . /app
+COPY --from=protocGen /app /app
 WORKDIR /app/cmd/gotify
 
 # Grab dependencies

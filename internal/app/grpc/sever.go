@@ -15,20 +15,16 @@ import (
 type Server struct {
 	rpcPort, webPort          string
 	debug                     bool
-	mailService               mail.MailService
-	mailDefaultFromAddress    string
-	mailDefaultReplyToAddress string
+	mailService               mail.Service
 	wg                        sync.WaitGroup
 }
 
-func NewServer(rpcPort, webPort string, debug bool, mailService mail.MailService, mailDefaultFromAddress, mailDefaultReplyToAddress string) (*Server, error) {
+func NewServer(rpcPort, webPort string, debug bool, mailService mail.Service) (*Server, error) {
 	return &Server{
 		rpcPort:                   rpcPort,
 		webPort:                   webPort,
 		debug:                     debug,
 		mailService:               mailService,
-		mailDefaultFromAddress:    mailDefaultFromAddress,
-		mailDefaultReplyToAddress: mailDefaultReplyToAddress,
 	}, nil
 }
 

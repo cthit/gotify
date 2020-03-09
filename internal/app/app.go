@@ -24,7 +24,7 @@ func Start() error {
 
 	fmt.Printf("Setting up services...")
 
-	var mailService mail.MailService
+	var mailService mail.Service
 
 	if !c.Mock() {
 		mailService, err = gmail.NewService(
@@ -38,6 +38,8 @@ func Start() error {
 		mailService, _ = mock.NewService()
 	}
 
+	mailService = mail.NewService(mailService, c.MailDefaultFrom(), c.MailDefaultReplyTo())
+
 	fmt.Printf("Done! \n")
 
 	fmt.Printf("Serving application on port %s \n", c.WebPort())
@@ -47,8 +49,6 @@ func Start() error {
 		c.WebPort(),
 		c.Debug(),
 		mailService,
-		c.MailDefaultFrom(),
-		c.MailDefaultReplyTo(),
 	)
 	if err != nil {
 		fmt.Println("Failed to create webserver.")

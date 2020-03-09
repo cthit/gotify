@@ -8,7 +8,7 @@ import (
 type mockService struct {
 }
 
-func NewService() (mail.MailService, error) {
+func NewService() (mail.Service, error) {
 	return &mockService{}, nil
 }
 

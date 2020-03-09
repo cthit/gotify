@@ -12,11 +12,11 @@ How to use the running application
 POST `/mail`
 
 Json Request:
-```
+```json5
 {
     "to": "....",
-    "from": "....", (optional)
-    "reply_to": "....", (optional)
+    "from": "....", // (optional)
+    "reply_to": "....", // (optional)
     "subject": "....",
     "body": "...."
 }

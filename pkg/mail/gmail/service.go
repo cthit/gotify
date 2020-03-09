@@ -33,7 +33,7 @@ func (g *googleService) mailService(from string) (*gmail.Service, error) {
 	return gmail.NewService(context.TODO(), option.WithScopes(gmail.GmailSendScope), option.WithTokenSource(c.TokenSource(context.TODO())))
 }
 
-func NewService(keyPath string, debug bool) (mail.MailService, error) {
+func NewService(keyPath string, debug bool) (mail.Service, error) {
 	jsonKey, err := ioutil.ReadFile(keyPath)
 	if err != nil {
 		return nil, err

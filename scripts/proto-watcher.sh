@@ -1,3 +1,3 @@
 #!/bin/sh
-./scripts/protoc-gen.sh || true
-reflex -r '\.proto$' -- ./scripts/protoc-gen.sh
+(./scripts/protoc-gen.sh && echo "Generated!" ) || true
+reflex -r '\.proto$' -- sh -c './scripts/protoc-gen.sh && echo "Generated!"'

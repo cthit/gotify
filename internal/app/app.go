@@ -47,6 +47,8 @@ func Start() error {
 		c.WebPort(),
 		c.Debug(),
 		mailService,
+		c.MailDefaultFrom(),
+		c.MailDefaultReplyTo(),
 	)
 	if err != nil {
 		fmt.Println("Failed to create webserver.")

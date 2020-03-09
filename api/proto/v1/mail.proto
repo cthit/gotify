@@ -5,21 +5,12 @@ package gotify;
 import "google/api/annotations.proto";
 
 service Mailer {
-    rpc SendMail(SendMailRequest) returns (SendMailResponse) {
+    rpc SendMail(Mail) returns (Mail) {
         option(google.api.http) = {
             post: "/mail"
+            body: "*"
         };
     }
-}
-
-message SendMailRequest {
-    Mail mail = 1;
-}
-
-message SendMailResponse {
-    Mail mail = 1;
-    bool success = 2;
-    string error = 3;
 }
 
 message Mail {

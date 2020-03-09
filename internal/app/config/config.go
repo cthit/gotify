@@ -12,6 +12,8 @@ func LoadConfig() (*Config, error) {
 	viper.SetDefault("rpc-port", "8090")
 	viper.SetDefault("debug-mode", false)
 	viper.SetDefault("google-mail.keyfile", "gapps.json")
+	viper.SetDefault("mail.default-from", "admin@chalmers.it")
+	viper.SetDefault("mail.default-reply-to", "no-reply@chalmers.it")
 	viper.SetDefault("mock-mode", false)
 
 	viper.SetEnvPrefix("gotify")
@@ -50,4 +52,12 @@ func (*Config) Mock() bool {
 
 func (*Config) GmailKeyfile() string {
 	return viper.GetString("google-mail.keyfile")
+}
+
+func (*Config) MailDefaultFrom() string {
+	return viper.GetString("mail.default-from")
+}
+
+func (*Config) MailDefaultReplyTo() string {
+	return viper.GetString("mail.default-reply-to")
 }

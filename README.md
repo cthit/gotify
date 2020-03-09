@@ -8,10 +8,6 @@ Currently supports the following notification types:
 ## Usage
 How to use the running application
 
-All request must inclue a header with the preshared key.
-
-`Authorization`: `pre-shared: your...key`
-
 ### Mail
 POST `/mail`
 
@@ -19,7 +15,8 @@ Json Request:
 ```
 {
     "to": "....",
-    "from": "....",
+    "from": "....", (optional)
+    "reply_to": "....", (optional)
     "subject": "....",
     "body": "...."
 }
@@ -30,25 +27,10 @@ Steps to run the application.
 this include configuration and key files at the moment
 
 ### Config
-The application can be configured through a config file or environment variables. Environment variables take precedence.
-
-#### config.toml
-config.toml can reside in your working directory, `/etc/gotify/` or `$HOME/.gotify/`
-
-```
-port = "8080"
-pre-shared-key = "......"
-debug-mode = false
-mock-mode = false
-
-[google-mail]
-    keyfile = "gapps.json"
-```
-See [Environment Variables](#environment-variables) for config explanation
+The application is configured through  environment variables.
 
 #### Environment Variables
 * `GOTIFY_PORT`: Port for the web service, defaults to `8080` (string)
-* `GOTIFY_PRE-SHARED-KEY`*: Random string used by other apps to authenticate
 * `GOTIFY_DEBUG-MODE`: Bool indicating debug mode defaults to `false`
 * `GOTIFY_GOOGLE-MAIL.KEYFILE`: the file described in [Google config file](#google-config-file) defaults to `gapps.json`
 
@@ -98,20 +80,5 @@ Use gin for hot reloading.
 You can install additional dependencies without restarting the container by running `docker exec gotify_web_1 go get ...`, gotify_web_1 is the name of the container and ... is the dependency.
 
 ### As mock
-1. Set the `pre-shared-key` config/environment variable.
-2. Set the `mock-mode` config/environment variable to true
-3. Enjoy
-
-Example docker-compose entry for mock service:
-```
-services:
-    ...
-    gotify:
-        image: cthit/gotify:latest
-        environment:
-          GOTIFY_PRE-SHARED-KEY: "123abc"
-          GOTIFY_MOCK-MODE: "true"
-
-```
-
-Other services would then be able to reach this service on `http://gotify:8080/...` with `123abc` as the preshared key
+1. Set the `mock-mode` config/environment variable to true
+2. Enjoy

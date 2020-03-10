@@ -30,9 +30,14 @@ this include configuration and key files at the moment
 The application is configured through  environment variables.
 
 #### Environment Variables
-* `GOTIFY_PORT`: Port for the web service, defaults to `8080` (string)
+* `GOTIFY_WEB-PORT`: Port for the web service, defaults to `8080` (string)
+* `GOTIFY_RPC-PORT`: Port for the rpc service, defaults to `8090` (string)
 * `GOTIFY_DEBUG-MODE`: Bool indicating debug mode defaults to `false`
-* `GOTIFY_GOOGLE-MAIL.KEYFILE`: the file described in [Google config file](#google-config-file) defaults to `gapps.json`
+* `GOTIFY_GOOGLE-MAIL.KEYFILE`: the file described in [Google config file](#google-config-file) defaults 
+to `gapps.json`
+* `GOTIFY_MAIL.DEFAULT-FROM`: Default `from` address in the mail, defaults to `admin@chalmers.it`
+* `GOTIFY_MAIL.DEFAULT-REPLY-TO`: Default `reply-to` address in the mail, defaults to `no-reply@chalmers.it`
+* `GOTIFY_MOCK-MODE`: Enable mock mode, defaults to `false`
 
 ### Google config file
 This file (gapps.json by default config) should be placed in the working directory
@@ -55,29 +60,17 @@ You must also allow mail api calls:
 * use api scope `https://www.googleapis.com/auth/gmail.send`
 
 ## Development
-You can either set this project up manually or with a simple docker compose setup. The manual setup is recommended if you'll be doing extensive development.
+To start a dockerized development environment with hot-reloading:
+```bash
+$ make dev
+```
+
+To start a non-dockerized development environment:
+```bash
+$ make run
+```
 
 Please referer to the software design document before starting development: `DESIGN.md`
-
-See issues for suggested features.
-### Manual
-Make sure you have golang installed and you `$GOPATH` setup.
-1. Follow the steps in [Setup](#setup) and enable debug mode.
-2. Grab all dependencies by standing in the project root and run `go get -d ./...`
-3. You find the main file in `cmd/main.go`
-4. Go to http://localhost:8080
-
-Use gin for hot reloading.
-1. Grab it with `go get github.com/codegangsta/gin`
-2. Run gotify with `gin -d cmd -a 8080 run main.go`
-3. Go to http://localhost:3000
-
-### Docker Compose
-1. Get a [Google key file](#google-config-file).
-2. Run `docker-compose up --build`
-3. Go to http://localhost:8080
-
-You can install additional dependencies without restarting the container by running `docker exec gotify_web_1 go get ...`, gotify_web_1 is the name of the container and ... is the dependency.
 
 ### As mock
 1. Set the `mock-mode` config/environment variable to true

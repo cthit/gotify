@@ -30,14 +30,14 @@ this include configuration and key files at the moment
 The application is configured through  environment variables.
 
 #### Environment Variables
-* `GOTIFY_WEB-PORT`: Port for the web service, defaults to `8080` (string)
-* `GOTIFY_RPC-PORT`: Port for the rpc service, defaults to `8090` (string)
-* `GOTIFY_DEBUG-MODE`: Bool indicating debug mode defaults to `false`
-* `GOTIFY_GOOGLE-MAIL.KEYFILE`: the file described in [Google config file](#google-config-file) defaults 
+* `GOTIFY_WEB_PORT`: Port for the web service, defaults to `8080` (string)
+* `GOTIFY_RPC_PORT`: Port for the rpc service, defaults to `8090` (string)
+* `GOTIFY_DEBUG_MODE`: Bool indicating debug mode defaults to `false`
+* `GOTIFY_GOOGLE_MAIL_KEYFILE`: the file described in [Google config file](#google-config-file) defaults 
 to `gapps.json`
-* `GOTIFY_MAIL.DEFAULT-FROM`: Default `from` address in the mail, defaults to `admin@chalmers.it`
-* `GOTIFY_MAIL.DEFAULT-REPLY-TO`: Default `reply-to` address in the mail, defaults to `no-reply@chalmers.it`
-* `GOTIFY_MOCK-MODE`: Enable mock mode, defaults to `false`
+* `GOTIFY_MAIL_DEFAULT_FROM`: Default `from` address in the mail, defaults to `admin@chalmers.it`
+* `GOTIFY_MAIL_DEFAULT_REPLY_TO`: Default `reply-to` address in the mail, defaults to `no-reply@chalmers.it`
+* `GOTIFY_MOCK_MODE`: Enable mock mode, defaults to `false`
 
 ### Google config file
 This file (gapps.json by default config) should be placed in the working directory

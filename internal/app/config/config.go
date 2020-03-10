@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"github.com/spf13/viper"
+	"strings"
 )
 
 type Config struct{}
@@ -18,6 +19,7 @@ func LoadConfig() (*Config, error) {
 
 	viper.SetEnvPrefix("gotify")
 	viper.AutomaticEnv()
+	viper.SetEnvKeyReplacer(strings.NewReplacer("-", "_", ".", "_"))
 
 	viper.SetConfigName("config")
 	viper.AddConfigPath("/etc/gotify/")

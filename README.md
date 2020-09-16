@@ -14,11 +14,12 @@ POST `/mail`
 Json Request:
 ```json5
 {
-    "to": "....",
-    "from": "....", // (optional)
-    "reply_to": "....", // (optional)
-    "subject": "....",
-    "body": "...."
+    "to": "...",
+    "from": "...", // (optional)
+    "reply_to": "...", // (optional)
+    "content_type": "...", // (optional)
+    "subject": "...",
+    "body": "..."
 }
 ```
 
@@ -36,7 +37,8 @@ The application is configured through  environment variables.
 * `GOTIFY_GOOGLE_MAIL_KEYFILE`: the file described in [Google config file](#google-config-file) defaults 
 to `gapps.json`
 * `GOTIFY_MAIL_DEFAULT_FROM`: Default `from` address in the mail, defaults to `admin@chalmers.it`
-* `GOTIFY_MAIL_DEFAULT_REPLY_TO`: Default `reply-to` address in the mail, defaults to `no-reply@chalmers.it`
+* `GOTIFY_MAIL_DEFAULT_REPLY_TO`: Default `reply_to` address in the mail, defaults to `no-reply@chalmers.it`
+* `GOTIFY_MAIL_DEFAULT_CONTENT_TYPE`: Default `content_type` in mail, default so `text/html; charset=ISO-8859-1`
 * `GOTIFY_MOCK_MODE`: Enable mock mode, defaults to `false`
 
 ### Google config file

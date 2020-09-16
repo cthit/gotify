@@ -7,12 +7,13 @@ import (
 )
 
 func (s *Server) SendMail(_ context.Context, in *gotify.Mail) (*gotify.Mail, error) {
-	//validate yo
+	//TODO: validate
 	m := mail.Mail{
 		To:      in.To,
 		From:    in.From,
 		ReplyTo: in.ReplyTo,
 		Subject: in.Subject,
+		ContentType: in.ContentType,
 		Body:    in.Body,
 	}
 
@@ -20,12 +21,13 @@ func (s *Server) SendMail(_ context.Context, in *gotify.Mail) (*gotify.Mail, err
 	if err != nil {
 		return nil, err
 	}
-	//handle them errors
+	//TODO: handle errors
 	return &gotify.Mail{
 		To:      m.To,
 		From:    m.From,
 		ReplyTo: m.ReplyTo,
 		Subject: m.Subject,
+		ContentType: m.ContentType,
 		Body:    m.Body,
 	}, nil
 }

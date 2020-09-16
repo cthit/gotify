@@ -38,7 +38,7 @@ func Start() error {
 		mailService, _ = mock.NewService()
 	}
 
-	mailService = mail.NewService(mailService, c.MailDefaultFrom(), c.MailDefaultReplyTo())
+	mailService = mail.NewService(mailService, c.MailDefaultFrom(), c.MailDefaultReplyTo(), c.MailDefaultContentType())
 
 	fmt.Printf("Done! \n")
 

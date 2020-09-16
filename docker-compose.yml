@@ -11,9 +11,9 @@ services:
     volumes:
     - .:/app
     environment:
-      GOTIFY_DEBUG-MODE: "true"
-      GOTIFY_MOCK-MODE: "true"
-      GOTIFY_GOOGLE-MAIL.KEYFILE: "gapps.json"
+      GOTIFY_DEBUG_MODE: "true"
+      GOTIFY_MOCK_MODE: "true"
+      GOTIFY_GOOGLE_MAIL_KEYFILE: "gapps.json"
   dev-gen:
     build:
       dockerfile: dev.Dockerfile
@@ -22,7 +22,7 @@ services:
     volumes:
       - .:/app
     command: ./scripts/proto-watcher.sh
-  swagger: # Generated swagger file i quite bad at the time of writing
+  swagger: # Generated swagger file is quite bad at the time of writing
     image: swaggerapi/swagger-ui
     ports:
       - "8000:8000"

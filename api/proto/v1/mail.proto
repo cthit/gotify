@@ -18,5 +18,6 @@ message Mail {
     string from = 2;
     string reply_to = 3;
     string subject = 4;
-    string body = 5;
+    string content_type = 5;
+    string body = 6;
 }

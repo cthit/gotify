@@ -13,18 +13,18 @@ import (
 )
 
 type Server struct {
-	rpcPort, webPort          string
-	debug                     bool
-	mailService               mail.Service
-	wg                        sync.WaitGroup
+	rpcPort, webPort string
+	debug            bool
+	mailService      mail.Service
+	wg               sync.WaitGroup
 }
 
 func NewServer(rpcPort, webPort string, debug bool, mailService mail.Service) (*Server, error) {
 	return &Server{
-		rpcPort:                   rpcPort,
-		webPort:                   webPort,
-		debug:                     debug,
-		mailService:               mailService,
+		rpcPort:     rpcPort,
+		webPort:     webPort,
+		debug:       debug,
+		mailService: mailService,
 	}, nil
 }
 
@@ -62,7 +62,7 @@ func (s *Server) startREST() error {
 
 	mux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
-	err := gotify.RegisterMailerHandlerFromEndpoint(ctx, mux, "localhost:" + s.rpcPort, opts)
+	err := gotify.RegisterMailerHandlerFromEndpoint(ctx, mux, "localhost:"+s.rpcPort, opts)
 	if err != nil {
 		return err
 	}

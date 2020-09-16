@@ -15,6 +15,7 @@ func LoadConfig() (*Config, error) {
 	viper.SetDefault("google-mail.keyfile", "gapps.json")
 	viper.SetDefault("mail.default-from", "admin@chalmers.it")
 	viper.SetDefault("mail.default-reply-to", "no-reply@chalmers.it")
+	viper.SetDefault("mail.default-content-type", "text/html; charset=ISO-8859-1")
 	viper.SetDefault("mock-mode", false)
 
 	viper.SetEnvPrefix("gotify")
@@ -62,4 +63,8 @@ func (*Config) MailDefaultFrom() string {
 
 func (*Config) MailDefaultReplyTo() string {
 	return viper.GetString("mail.default-reply-to")
+}
+
+func (*Config) MailDefaultContentType() string {
+	return viper.GetString("mail.default-content-type")
 }

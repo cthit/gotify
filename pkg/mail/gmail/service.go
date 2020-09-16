@@ -22,8 +22,8 @@ const googleInvalidEmailErrorMessage = `Response: {
 }`
 
 type googleService struct {
-	config         jwt.Config
-	debug          bool
+	config jwt.Config
+	debug  bool
 }
 
 func (g *googleService) mailService(from string) (*gmail.Service, error) {
@@ -46,8 +46,8 @@ func NewService(keyPath string, debug bool) (mail.Service, error) {
 	}
 
 	gs := &googleService{
-		config:         *config,
-		debug:          debug,
+		config: *config,
+		debug:  debug,
 	}
 
 	return gs, err
@@ -63,6 +63,7 @@ func (g *googleService) SendMail(m mail.Mail) (mail.Mail, error) {
 	msgRaw := "From: " + m.From + "\r\n" +
 		"To: " + m.To + "\r\n" +
 		"Reply-To: " + m.ReplyTo + "\r\n" +
+		"Content-Type: " + m.ContentType + "\r\n" +
 		"Subject: " + mail.EncodeHeader(m.Subject) + "\r\n\r\n" +
 		m.Body + "\r\n"
 

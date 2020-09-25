@@ -2,8 +2,9 @@ package config
 
 import (
 	"fmt"
-	"github.com/spf13/viper"
 	"strings"
+
+	"github.com/spf13/viper"
 )
 
 type Config struct{}
@@ -29,12 +30,13 @@ func LoadConfig() (*Config, error) {
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+		if _, ok := err.(viper.ConfigFileNotFoundError); ok { //nolint:gosimple
 			fmt.Println("Failed to read config from file")
 		} else {
 			return &Config{}, err
 		}
 	}
+
 	return &Config{}, nil
 }
 

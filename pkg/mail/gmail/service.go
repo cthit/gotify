@@ -1,19 +1,18 @@
 package gmail
 
 import (
+	"encoding/base64"
 	"fmt"
 	"io/ioutil"
 	"strings"
 
-	"github.com/cthit/gotify/pkg/mail"
+	"golang.org/x/net/context"
 	"golang.org/x/oauth2/google"
 	"golang.org/x/oauth2/jwt"
 	"google.golang.org/api/gmail/v1"
 	"google.golang.org/api/option"
 
-	"encoding/base64"
-
-	"golang.org/x/net/context"
+	"github.com/cthit/gotify/pkg/mail"
 )
 
 const googleInvalidEmailErrorMessage = `Response: {
@@ -30,6 +29,7 @@ func (g *googleService) mailService(from string) (*gmail.Service, error) {
 	// make sure to not edit the original config
 	c := g.config
 	c.Subject = from
+
 	return gmail.NewService(context.Background(), option.WithScopes(gmail.GmailSendScope), option.WithTokenSource(c.TokenSource(context.TODO())))
 }
 
@@ -54,7 +54,6 @@ func NewService(keyPath string, debug bool) (mail.Service, error) {
 }
 
 func (g *googleService) SendMail(m mail.Mail) (mail.Mail, error) {
-
 	mailService, err := g.mailService(m.From)
 	if err != nil {
 		return m, err
@@ -70,11 +69,13 @@ func (g *googleService) SendMail(m mail.Mail) (mail.Mail, error) {
 	msg := &gmail.Message{
 		Raw: base64.RawURLEncoding.EncodeToString([]byte(msgRaw)),
 	}
+
 	_, err = mailService.Users.Messages.Send(m.From, msg).Context(context.Background()).Do()
 	if err != nil {
 		if strings.Contains(err.Error(), googleInvalidEmailErrorMessage) {
 			return m, fmt.Errorf("Invalid from email, email must exists")
 		}
+
 		return m, err
 	}
 

@@ -45,6 +45,7 @@ func Start() error {
 
 	fmt.Printf("Serving application on port %s \n", c.WebPort())
 	fmt.Printf("Serving rpc on port %s \n", c.RPCPort())
+
 	server, err := grpc.NewServer(
 		c.RPCPort(),
 		c.WebPort(),
@@ -58,5 +59,6 @@ func Start() error {
 	}
 
 	server.Start()
+
 	return nil
 }

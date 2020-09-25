@@ -2,6 +2,7 @@ package mock
 
 import (
 	"fmt"
+
 	"github.com/cthit/gotify/pkg/mail"
 )
 
@@ -13,7 +14,6 @@ func NewService() (mail.Service, error) {
 }
 
 func (g *mockService) SendMail(mail mail.Mail) (mail.Mail, error) {
-
 	fmt.Printf("Sending mail:\n %#v \n", mail)
 
 	return mail, nil

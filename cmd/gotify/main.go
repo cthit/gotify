@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/cthit/gotify/internal/app"
 	"os"
+
+	"github.com/cthit/gotify/internal/app"
 )
 
 func main() {
@@ -12,5 +13,6 @@ func main() {
 		fmt.Printf("Crash: %v\n", err)
 		os.Exit(1)
 	}
+
 	os.Exit(0)
 }

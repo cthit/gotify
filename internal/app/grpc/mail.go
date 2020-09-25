@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"context"
+
 	gotify "github.com/cthit/gotify/pkg/api/v1"
 	"github.com/cthit/gotify/pkg/mail"
 )

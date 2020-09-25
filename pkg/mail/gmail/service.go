@@ -30,7 +30,7 @@ func (g *googleService) mailService(from string) (*gmail.Service, error) {
 	// make sure to not edit the original config
 	c := g.config
 	c.Subject = from
-	return gmail.NewService(context.TODO(), option.WithScopes(gmail.GmailSendScope), option.WithTokenSource(c.TokenSource(context.TODO())))
+	return gmail.NewService(context.Background(), option.WithScopes(gmail.GmailSendScope), option.WithTokenSource(c.TokenSource(context.TODO())))
 }
 
 func NewService(keyPath string, debug bool) (mail.Service, error) {

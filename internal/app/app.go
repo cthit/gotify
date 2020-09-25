@@ -47,6 +47,7 @@ func Start() error {
 	server, err := grpc.NewServer(
 		c.RPCPort(),
 		c.WebPort(),
+		c.Environment(),
 		c.Debug(),
 		mailService,
 	)

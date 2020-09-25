@@ -17,6 +17,7 @@ func LoadConfig() (*Config, error) {
 	viper.SetDefault("mail.default-reply-to", "no-reply@chalmers.it")
 	viper.SetDefault("mail.default-content-type", "text/html; charset=ISO-8859-1")
 	viper.SetDefault("mock-mode", false)
+	viper.SetDefault("environment", EnvDevelopment)
 
 	viper.SetEnvPrefix("gotify")
 	viper.AutomaticEnv()
@@ -51,6 +52,17 @@ func (*Config) RPCPort() string {
 
 func (*Config) Mock() bool {
 	return viper.GetBool("mock-mode")
+}
+
+func (*Config) Environment() string {
+	switch viper.GetString("environment") {
+	case EnvTest:
+		return EnvTest
+	case EnvProduction:
+		return EnvProduction
+	default:
+		return EnvDevelopment
+	}
 }
 
 func (*Config) GmailKeyfile() string {

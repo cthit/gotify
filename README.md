@@ -40,6 +40,7 @@ to `gapps.json`
 * `GOTIFY_MAIL_DEFAULT_REPLY_TO`: Default `reply_to` address in the mail, defaults to `no-reply@chalmers.it`
 * `GOTIFY_MAIL_DEFAULT_CONTENT_TYPE`: Default `content_type` in mail, default so `text/html; charset=ISO-8859-1`
 * `GOTIFY_MOCK_MODE`: Enable mock mode, defaults to `false`
+* `GOTIFY_ENVIRONMENT`: (`test` | `production` | `development`), defaults to `development`
 
 ### Google config file
 This file (gapps.json by default config) should be placed in the working directory

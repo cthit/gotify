@@ -9,12 +9,12 @@ import (
 func (s *Server) SendMail(_ context.Context, in *gotify.Mail) (*gotify.Mail, error) {
 	//TODO: validate
 	m := mail.Mail{
-		To:      in.To,
-		From:    in.From,
-		ReplyTo: in.ReplyTo,
-		Subject: in.Subject,
+		To:          in.To,
+		From:        in.From,
+		ReplyTo:     in.ReplyTo,
+		Subject:     in.Subject,
 		ContentType: in.ContentType,
-		Body:    in.Body,
+		Body:        in.Body,
 	}
 
 	m, err := s.mailService.SendMail(m)
@@ -23,11 +23,11 @@ func (s *Server) SendMail(_ context.Context, in *gotify.Mail) (*gotify.Mail, err
 	}
 	//TODO: handle errors
 	return &gotify.Mail{
-		To:      m.To,
-		From:    m.From,
-		ReplyTo: m.ReplyTo,
-		Subject: m.Subject,
+		To:          m.To,
+		From:        m.From,
+		ReplyTo:     m.ReplyTo,
+		Subject:     m.Subject,
 		ContentType: m.ContentType,
-		Body:    m.Body,
+		Body:        m.Body,
 	}, nil
 }

@@ -21,6 +21,7 @@ func Start() error {
 
 	fmt.Printf("Debug mode is set to: %t \n", c.Debug())
 	fmt.Printf("Mock mode is set to: %t \n", c.Mock())
+	fmt.Printf("Environment is set to: %s \n", c.Environment())
 
 	fmt.Printf("Setting up services...")
 

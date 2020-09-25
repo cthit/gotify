@@ -22,7 +22,7 @@ services:
     volumes:
       - .:/app
     command: ./scripts/proto-watcher.sh
-  swagger: # Generated swagger file is quite bad at the time of writing
+  swagger:
     image: swaggerapi/swagger-ui
     ports:
       - "8000:8000"

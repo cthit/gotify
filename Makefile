@@ -25,4 +25,4 @@ dev:
 .PHONY: clean
 clean:
 	rm -rf pkg/api
-	rm -rf api/swagger
+	git restore api/swagger

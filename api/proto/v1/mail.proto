@@ -3,6 +3,12 @@ syntax = "proto3";
 package gotify;
 
 import "google/api/annotations.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+    host: "localhost:8080"
+    schemes: HTTP;
+};
 
 service Mailer {
     rpc SendMail(Mail) returns (Mail) {

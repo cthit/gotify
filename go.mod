@@ -5,6 +5,7 @@ go 1.14
 require (
 	github.com/golang/protobuf v1.3.4
 	github.com/grpc-ecosystem/grpc-gateway v1.9.0
+	github.com/pkg/errors v0.8.0
 	github.com/spf13/viper v1.5.0
 	github.com/stretchr/testify v1.4.0 // indirect
 	golang.org/x/net v0.0.0-20191119073136-fc4aabc6c914

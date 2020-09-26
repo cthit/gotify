@@ -38,3 +38,7 @@ lint-fix:
 .PHONY: lint-docker
 lint-docker:
 	docker run --rm -v `pwd`:/app -w /app golangci/golangci-lint:v1.31.0-alpine golangci-lint run
+
+.PHONY: test
+test:
+	go test ./...

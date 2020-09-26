@@ -3,6 +3,7 @@ package validation
 import (
 	"errors"
 	"regexp"
+	"strings"
 )
 
 var emailRegexp = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
@@ -39,7 +40,7 @@ func FieldString(name string, value string, errFuncs ...func(string) error) erro
 }
 
 func IsEmpty(s string) error {
-	if s == "" {
+	if strings.TrimSpace(s) == "" {
 		return nil
 	}
 
@@ -47,7 +48,7 @@ func IsEmpty(s string) error {
 }
 
 func IsNotEmpty(s string) error {
-	if s != "" {
+	if strings.TrimSpace(s) != "" {
 		return nil
 	}
 

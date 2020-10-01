@@ -1,6 +1,6 @@
-package gotify
+package mail
 
-type MailService interface {
+type Service interface {
 	SendMail(mail Mail) (Mail, error) // Returns the actually sent email
 	Destroy() error
 }

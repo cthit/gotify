@@ -1,15 +1,33 @@
-version: '3'
+version: '3.4'
 services:
-  web:
+  dev:
     build:
       dockerfile: dev.Dockerfile
       context: ./
+      target: dev
     ports:
-    - "8080:3000"
+    - "8080:8080"
+    - "8090:8090"
     volumes:
-    - .:/go/src/github.com/cthit/gotify
+    - .:/app
     environment:
-      GOTIFY_PRE-SHARED-KEY: "123abc"
-      GOTIFY_DEBUG-MODE: "true"
-      GOTIFY_GOOGLE-MAIL.KEYFILE: "gapps.json"
-      GOTIFY_GOOGLE-MAIL.ADMIN-MAIL: "admin@chalmers.it"
+      GOTIFY_DEBUG_MODE: "true"
+      GOTIFY_MOCK_MODE: "true"
+      GOTIFY_GOOGLE_MAIL_KEYFILE: "gapps.json"
+  dev-gen:
+    build:
+      dockerfile: dev.Dockerfile
+      context: ./
+      target: dev_gen
+    volumes:
+      - .:/app
+    command: ./scripts/proto-watcher.sh
+  swagger:
+    image: swaggerapi/swagger-ui
+    ports:
+      - "8000:8000"
+    environment:
+      PORT: "8000"
+      SWAGGER_JSON: "/app/v1/apidocs.swagger.json"
+    volumes:
+      - ./api/swagger:/app

@@ -1,4 +1,6 @@
 config.toml
 .idea/
-*.json
-gin-bin
+gapps.json
+*-bin
+api/swagger
+pkg/api

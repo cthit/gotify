@@ -7,7 +7,7 @@ import (
 	"golang.org/x/oauth2/google"
 
 	"encoding/base64"
-	"io/ioutil"
+	"os"
 
 	"github.com/cthit/gotify"
 )
@@ -20,7 +20,7 @@ type googleService struct {
 
 func NewGoogleMailServiceCreator(keyPath string, adminMail string, debug bool) (func() gotify.MailService, error) {
 
-	jsonKey, err := ioutil.ReadFile(keyPath)
+	jsonKey, err := os.ReadFile(keyPath)
 	if err != nil {
 		return nil, err
 	}
@@ -47,9 +47,6 @@ func NewGoogleMailServiceCreator(keyPath string, adminMail string, debug bool) (
 		adminMail:   adminMail,
 		debug:       debug,
 	}
-	if err != nil {
-		return nil, err
-	}
 
 	return func() gotify.MailService {
 		return gs
@@ -59,11 +56,34 @@ func NewGoogleMailServiceCreator(keyPath string, adminMail string, debug bool) (
 func (g *googleService) SendMail(mail gotify.Mail) (gotify.Mail, error) {
 
 	mail.From = g.adminMail
+	var msgRaw string
+	subject := "=?UTF-8?B?" + base64.StdEncoding.EncodeToString([]byte(mail.Subject)) + "?="
+	if len(mail.Attachments) > 0 {
+		boundary := "my-boundary-779"
+		msgRaw = "From: " + mail.From + "\r\n" +
+			"To: " + mail.To + "\r\n" +
+			"Subject: " + subject + "\r\n" +
+			"MIME-Version: 1.0\r\n" +
+			"Content-Type: multipart/mixed; boundary=" + boundary + "\r\n\r\n" +
+			"--" + boundary + "\r\n" +
+			"Content-Type: text/plain; charset=UTF-8\r\n\r\n" +
+			mail.Body + "\r\n"
 
-	msgRaw := "From: " + mail.From + "\r\n" +
-		"To: " + mail.To + "\r\n" +
-		"Subject: " + mail.Subject + "\r\n\r\n" +
-		mail.Body + "\r\n"
+		for _, attachment := range mail.Attachments {
+			msgRaw += "--" + boundary + "\r\n" +
+				"Content-Type: " + attachment.ContentType + "; name=\"" + attachment.Name + "\"\r\n" +
+				"Content-Disposition: attachment; filename=\"" + attachment.Name + "\"\r\n" +
+				"Content-Transfer-Encoding: base64\r\n\r\n" +
+				attachment.Data + "\r\n"
+		}
+
+		msgRaw += "--" + boundary + "--"
+	} else {
+		msgRaw = "From: " + mail.From + "\r\n" +
+			"To: " + mail.To + "\r\n" +
+			"Subject: " + subject + "\r\n\r\n" +
+			mail.Body + "\r\n"
+	}
 
 	msg := &gmail.Message{
 		Raw: base64.RawURLEncoding.EncodeToString([]byte(msgRaw)),

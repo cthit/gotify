@@ -1,6 +1,6 @@
 # Dockerfile for gotify production
-FROM golang:alpine AS buildStage
-MAINTAINER digIT <digit@chalmers.it>
+FROM golang:alpine3.21 AS buildStage
+LABEL maintainer="digIT <digit@chalmers.it>"
 
 # Install git
 RUN apk update
@@ -12,10 +12,7 @@ RUN mkdir -p $GOPATH/src/github.com/cthit/gotify
 COPY . $GOPATH/src/github.com/cthit/gotify
 WORKDIR $GOPATH/src/github.com/cthit/gotify/cmd
 
-# Grab dependencies
-RUN go get -d -v ./...
-
-# build binary
+# Build binary
 RUN go install -v
 RUN mkdir /app && mv $GOPATH/bin/cmd /app/gotify
 
@@ -23,7 +20,7 @@ RUN mkdir /app && mv $GOPATH/bin/cmd /app/gotify
 #    PRODUCTION STAGE    #
 ##########################
 FROM alpine
-MAINTAINER digIT <digit@chalmers.it>
+LABEL maintainer="digIT <digit@chalmers.it>"
 
 # Add standard certificates
 RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*

@@ -21,7 +21,13 @@ Json Request:
     "to": "....",
     "from": "....",
     "subject": "....",
-    "body": "...."
+    "body": "....",
+    "attachments": [
+        {
+            "name": "....",
+            "data": "...."
+        }
+    ]
 }
 ```
 
@@ -40,6 +46,7 @@ port = "8080"
 pre-shared-key = "......"
 debug-mode = false
 mock-mode = false
+max-mail-size = 20000000
 
 [google-mail]
     keyfile = "gapps.json"
@@ -51,6 +58,7 @@ See [Environment Variables](#environment-variables) for config explanation
 * `GOTIFY_PORT`: Port for the web service, defaults to `8080` (string)
 * `GOTIFY_PRE-SHARED-KEY`*: Random string used by other apps to authenticate
 * `GOTIFY_DEBUG-MODE`: Bool indicating debug mode defaults to `false`
+* `GOTIFY_MAX-MAIL-SIZE`: The maximum size of an email in bytes, defaults to `20000000` (int)
 * `GOTIFY_GOOGLE-MAIL.KEYFILE`: the file described in [Google config file](#google-config-file) defaults to `gapps.json`
 * `GOTIFY_GOOGLE-MAIL.ADMIN-MAIL`*: The google administrator email.
 

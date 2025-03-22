@@ -2,17 +2,25 @@ package web
 
 import (
 	"encoding/json"
+	"io"
+	"net/http"
+
 	"github.com/cthit/gotify"
 	"github.com/gocraft/web"
-	"io/ioutil"
-	"net/http"
+	"github.com/spf13/viper"
 )
 
 func (c *Context) SendMail(rw web.ResponseWriter, req *web.Request) {
 	var mail gotify.Mail
 
+	// Ensure that the request is not too large
+	if req.ContentLength > viper.GetInt64("max-mail-size") {
+		rw.WriteHeader(http.StatusRequestEntityTooLarge)
+		return
+	}
+
 	// Read request body
-	body, err := ioutil.ReadAll(req.Body)
+	body, err := io.ReadAll(req.Body)
 	req.Body.Close()
 	if err != nil {
 		c.printError(err)

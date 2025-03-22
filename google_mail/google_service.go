@@ -1,7 +1,10 @@
 package google_mail
 
 import (
+	"fmt"
+
 	"google.golang.org/api/gmail/v1" // Imports as gmail
+	"google.golang.org/api/option"
 
 	"golang.org/x/net/context"
 	"golang.org/x/oauth2/google"
@@ -10,6 +13,8 @@ import (
 	"os"
 
 	"github.com/cthit/gotify"
+
+	"math/rand"
 )
 
 type googleService struct {
@@ -37,7 +42,7 @@ func NewGoogleMailServiceCreator(keyPath string, adminMail string, debug bool) (
 	// Create a http client
 	client := config.Client(context.Background())
 
-	mailService, err := gmail.New(client)
+	mailService, err := gmail.NewService(context.Background(), option.WithHTTPClient(client))
 	if err != nil {
 		return nil, err
 	}
@@ -58,8 +63,10 @@ func (g *googleService) SendMail(mail gotify.Mail) (gotify.Mail, error) {
 	mail.From = g.adminMail
 	var msgRaw string
 	subject := "=?UTF-8?B?" + base64.StdEncoding.EncodeToString([]byte(mail.Subject)) + "?="
+
 	if len(mail.Attachments) > 0 {
-		boundary := "my-boundary-779"
+		boundary := fmt.Sprint("gotify-boundary-", rand.Int63())
+
 		msgRaw = "From: " + mail.From + "\r\n" +
 			"To: " + mail.To + "\r\n" +
 			"Subject: " + subject + "\r\n" +

@@ -16,7 +16,7 @@ All request must inclue a header with the preshared key.
 POST `/mail`
 
 Json Request:
-```
+```json5
 {
     "to": "....",
     "from": "....",
@@ -24,8 +24,9 @@ Json Request:
     "body": "....",
     "attachments": [
         {
-            "name": "....",
-            "data": "...."
+            "name": "....",        // File name
+            "data": "....",        // Base64 encoded file
+            "content_type": "...." // MIME type
         }
     ]
 }

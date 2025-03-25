@@ -9,6 +9,7 @@ func loadConfig() error {
 	viper.SetDefault("debug-mode", false)
 	viper.SetDefault("google-mail.keyfile", "gapps.json")
 	viper.SetDefault("mock-mode", false)
+	viper.SetDefault("max-mail-size", 20e6)
 
 	viper.SetEnvPrefix("gotify")
 	viper.AutomaticEnv()
